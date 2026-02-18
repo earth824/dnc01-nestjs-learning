@@ -6,12 +6,18 @@ import {
   HttpStatus,
   Patch,
   Post
+  // UsePipes,
+  // ValidationPipe
 } from '@nestjs/common';
+import { RegisterDto } from 'src/auth/dtos/register.dto';
 
+// @UsePipes(new ValidationPipe({ stopAtFirstError: true }))
 @Controller('auth')
 export class AuthController {
+  // @UsePipes(new ValidationPipe({ stopAtFirstError: true }))
   @Post('register')
-  register() {
+  register(@Body() body: RegisterDto) {
+    console.log(body);
     return 'REGISTER';
   }
 

@@ -5,6 +5,7 @@ import {
   Headers,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -27,18 +28,19 @@ export class BlogController {
   @Put(':id')
   updateBlog(
     @Param() params: any,
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body('title') title: any,
     @Headers('Authorization') authorization: string | undefined
   ) {
-    console.log(params);
     console.log(id);
+    console.log('tesssss');
+    console.log(params);
     console.log(title);
     console.log(authorization);
   }
 
-  @Post()
-  createPost(@Req() req: Request, @Res() res: Response) {
+  @Post('')
+  createBlog(@Req() req: Request, @Res() res: Response) {
     console.log(req.body);
     res
       .status(HttpStatus.CREATED)

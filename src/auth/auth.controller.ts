@@ -19,8 +19,9 @@ export class AuthController {
 
   // @UsePipes(new ValidationPipe({ stopAtFirstError: true }))
   @Post('register')
-  register(@Body() registerDto: RegisterDto) {
-    this.authService.register(registerDto);
+  async register(@Body() registerDto: RegisterDto) {
+    await this.authService.register(registerDto);
+    return 'registered successfully';
   }
 
   @HttpCode(HttpStatus.OK)

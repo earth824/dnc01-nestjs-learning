@@ -12,7 +12,7 @@ import {
 
 export class RegisterDto {
   @Transform(({ value }) => {
-    if (typeof value === 'string') value.trim();
+    if (typeof value === 'string') return value.trim();
     return value as unknown;
   })
   @MinLength(3)
@@ -30,11 +30,11 @@ export class RegisterDto {
   @IsOptional()
   role: 'USER' | 'ADMIN' = 'USER';
 
-  @IsDate()
-  @Type(() => Date)
-  birthDate: Date;
+  // @IsDate()
+  // @Type(() => Date)
+  // birthDate: Date;
 
-  @IsNumber()
-  @Type(() => Number)
-  point: number;
+  // @IsNumber()
+  // @Type(() => Number)
+  // point: number;
 }

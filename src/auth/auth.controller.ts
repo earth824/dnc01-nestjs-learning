@@ -9,16 +9,18 @@ import {
   // UsePipes,
   // ValidationPipe
 } from '@nestjs/common';
+import { AuthService } from 'src/auth/auth.service';
 import { RegisterDto } from 'src/auth/dtos/register.dto';
 
 // @UsePipes(new ValidationPipe({ stopAtFirstError: true }))
 @Controller('auth')
 export class AuthController {
+  constructor(private readonly authService: AuthService) {}
+
   // @UsePipes(new ValidationPipe({ stopAtFirstError: true }))
   @Post('register')
-  register(@Body() body: RegisterDto) {
-    console.log(body);
-    return 'REGISTER';
+  register(@Body() registerDto: RegisterDto) {
+    this.authService.register(registerDto);
   }
 
   @HttpCode(HttpStatus.OK)

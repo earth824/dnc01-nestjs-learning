@@ -13,9 +13,12 @@ import {
   Res
 } from '@nestjs/common';
 import type { Request, Response } from 'express';
+import { AuthService } from 'src/auth/auth.service';
 
 @Controller('blogs')
 export class BlogController {
+  constructor(private readonly authService: AuthService) {}
+
   @Get()
   getAllBlog(
     @Query('search') search: string | string[] | undefined,

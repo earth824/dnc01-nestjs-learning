@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from 'src/auth/dtos/login.dto';
 import { RegisterDto } from 'src/auth/dtos/register.dto';
+import { AccessJwtPayload } from 'src/auth/types/jwt-payload.type';
 import { BcryptService } from 'src/user/bcrypt.service';
 import { UserService } from 'src/user/user.service';
 
@@ -35,7 +36,11 @@ export class AuthService {
       throw new UnauthorizedException('Invalid username or password');
     }
 
-    const payload = { sub: user.id, username: user.username, role: user.role };
+    const payload: AccessJwtPayload = {
+      sub: user.id,
+      username: user.username,
+      role: user.role
+    };
     const accessToken = await this.jwtService.signAsync(payload);
     return { accessToken, user };
   }

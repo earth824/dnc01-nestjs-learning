@@ -53,6 +53,10 @@ export class UserService {
       throw err;
     }
   }
+
+  async findByUsername(username: string) {
+    return this.prisma.user.findUnique({ where: { username } });
+  }
 }
 
 // ERROR RESPONSE: { success: false, message: string, code: string, timestamp: string, path: string, details: any }

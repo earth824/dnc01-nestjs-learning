@@ -10,6 +10,7 @@ import {
   // ValidationPipe
 } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
+import { LoginDto } from 'src/auth/dtos/login.dto';
 import { RegisterDto } from 'src/auth/dtos/register.dto';
 
 // @UsePipes(new ValidationPipe({ stopAtFirstError: true }))
@@ -26,8 +27,8 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  login(@Body() body: any) {
-    console.log(body);
+  async login(@Body() loginDto: LoginDto) {
+    await this.authService.login(loginDto);
     return { accessToken: 'abcdefghijklmnopqrstuvwxyz' };
   }
 

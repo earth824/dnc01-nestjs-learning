@@ -4,6 +4,8 @@ import { UserModule } from './user/user.module';
 import { BlogModule } from './blog/blog.module';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
+import { validate } from 'src/config/env.validation';
+import { databaseConfig, jwtConfig } from 'src/config/database.config';
 
 @Module({
   imports: [
@@ -11,7 +13,11 @@ import { ConfigModule } from '@nestjs/config';
     UserModule,
     BlogModule,
     DatabaseModule,
-    ConfigModule.forRoot()
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validate,
+      load: [databaseConfig, jwtConfig]
+    })
   ]
 })
 export class AppModule {}

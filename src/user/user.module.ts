@@ -6,6 +6,6 @@ import { BcryptService } from './bcrypt.service';
 @Module({
   controllers: [UserController],
   providers: [UserService, BcryptService],
-  exports: [UserService]
+  exports: [UserService, BcryptService]
 })
 export class UserModule {}

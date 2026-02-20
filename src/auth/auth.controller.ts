@@ -28,8 +28,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
-    await this.authService.login(loginDto);
-    return { accessToken: 'abcdefghijklmnopqrstuvwxyz' };
+    return this.authService.login(loginDto);
   }
 
   @Get('me')

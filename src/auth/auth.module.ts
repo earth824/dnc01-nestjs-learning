@@ -10,6 +10,7 @@ import { EnvConfig } from 'src/config/env.validation';
 @Module({
   imports: [
     UserModule,
+    // JwtModule.register({})
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService<EnvConfig, true>) => ({

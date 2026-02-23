@@ -11,6 +11,7 @@ import {
   // ValidationPipe
 } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { LoginDto } from 'src/auth/dtos/login.dto';
 import { RegisterDto } from 'src/auth/dtos/register.dto';
@@ -41,8 +42,8 @@ export class AuthController {
 
   // @UseGuards(AuthGuard)
   @Get('me')
-  getMe() {
-    return 'AUTH USER PROFILE TTTT';
+  getMe(@CurrentUser('sub') userId: number) {
+    return this.authService.getCurrentUser(userId);
   }
 
   @Patch('me/password')

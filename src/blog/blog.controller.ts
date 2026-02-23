@@ -10,7 +10,8 @@ import {
   Put,
   Query,
   Req,
-  Res
+  Res,
+  SetMetadata
 } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { AuthService } from 'src/auth/auth.service';
@@ -42,6 +43,8 @@ export class BlogController {
     console.log(authorization);
   }
 
+  // @Roles('ADMIN', 'SUPER_ADMIN')
+  // @SetMetadata('ROLES_KEY', ['ADMIN', 'SUPER_ADMIN'])
   @Post('')
   createBlog(@Req() req: Request, @Res() res: Response) {
     console.log(req.body);

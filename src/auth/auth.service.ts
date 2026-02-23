@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from 'src/auth/dtos/login.dto';
 import { RegisterDto } from 'src/auth/dtos/register.dto';
 import { AccessJwtPayload } from 'src/auth/types/jwt-payload.type';
+import { User } from 'src/database/generated/prisma/client';
 import { BcryptService } from 'src/user/bcrypt.service';
 import { UserService } from 'src/user/user.service';
 
@@ -45,5 +46,9 @@ export class AuthService {
     };
     const accessToken = await this.jwtService.signAsync(payload);
     return { accessToken, user };
+  }
+
+  async getCurrentUser(userId: number): Promise<User> {
+    return this.userService.findById(userId);
   }
 }

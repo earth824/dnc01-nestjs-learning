@@ -4,10 +4,12 @@ import {
   HttpException,
   HttpStatus,
   Inject,
-  Injectable
+  Injectable,
+  NotFoundException
 } from '@nestjs/common';
 
 import { RegisterDto } from 'src/auth/dtos/register.dto';
+import { User } from 'src/database/generated/prisma/browser';
 import { PrismaClientKnownRequestError } from 'src/database/generated/prisma/internal/prismaNamespace';
 import { PrismaService } from 'src/database/prisma.service';
 import { BcryptService } from 'src/user/bcrypt.service';
@@ -65,6 +67,12 @@ export class UserService {
 
   async findByUsername(username: string) {
     return this.prisma.user.findUnique({ where: { username } });
+  }
+
+  async findById(id: number): Promise<User> {
+    const user = await this.prisma.user.findUnique({ where: { id } });
+    if (!user) throw new NotFoundException('User with provided id not found');
+    return user;
   }
 }
 

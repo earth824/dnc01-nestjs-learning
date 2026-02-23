@@ -1,8 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
-import { JwtService } from '@nestjs/jwt';
+import { GlobalFilter } from 'src/common/filters/global.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,6 +13,8 @@ async function bootstrap() {
       transform: true
     })
   );
+
+  app.useGlobalFilters(new GlobalFilter());
   // NO Dependency Injection
   // app.useGlobalGuards(new AuthGuard(new JwtService()));
 

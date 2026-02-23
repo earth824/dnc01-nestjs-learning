@@ -25,6 +25,7 @@ export class AuthService {
     // find user in database with provided username
     const user = await this.userService.findByUsername(loginDto.username);
     if (!user) {
+      // throw new InvalidCredentialsException()
       throw new UnauthorizedException('Invalid username or password');
     }
     // compare password
@@ -33,6 +34,7 @@ export class AuthService {
       user.password
     );
     if (!isMatch) {
+      // throw new InvalidCredentialsException()
       throw new UnauthorizedException('Invalid username or password');
     }
 

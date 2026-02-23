@@ -23,6 +23,6 @@ import { EnvConfig } from 'src/config/env.validation';
   ],
   controllers: [AuthController, GoogleController],
   providers: [AuthService],
-  exports: [AuthService]
+  exports: [AuthService, JwtModule]
 })
 export class AuthModule {}

@@ -5,17 +5,15 @@ import {
   HttpCode,
   HttpStatus,
   Patch,
-  Post,
-  UseGuards
+  Post
   // UsePipes,
   // ValidationPipe
 } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 import { LoginDto } from 'src/auth/dtos/login.dto';
 import { RegisterDto } from 'src/auth/dtos/register.dto';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
 
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 // @UsePipes(new ValidationPipe({ stopAtFirstError: true }))
 @Controller('auth')
 export class AuthController {

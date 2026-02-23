@@ -2,9 +2,12 @@ import {
   BadRequestException,
   CanActivate,
   ExecutionContext,
-  Injectable
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { JsonWebTokenError, JwtService, TokenExpiredError } from '@nestjs/jwt';
 import { Request } from 'express';
 import { AccessJwtPayload } from 'src/auth/types/jwt-payload.type';
 
@@ -20,13 +23,28 @@ export class AuthGuard implements CanActivate {
     const authorization = request.headers.authorization ?? '';
     const [bearer, token] = authorization.split(' ');
     if (bearer !== 'Bearer' || !token) {
+      // throw new InvalidAuthorizationHeader()
       throw new BadRequestException('Invalid authorization scheme');
     }
 
     // verify token
-    const payload = await this.jwtService.verifyAsync<AccessJwtPayload>(token);
-    // request.user = payload;
+    try {
+      const payload =
+        await this.jwtService.verifyAsync<AccessJwtPayload>(token);
+      request.user = payload;
+    } catch (error) {
+      if (error instanceof JsonWebTokenError)
+        // throw new UnauthorizedException('Invalid token');
+        throw new HttpException(
+          { a: 20, m: 'azazazazaz' },
+          HttpStatus.UNAUTHORIZED
+        );
+      if (error instanceof TokenExpiredError)
+        // throw new TokenExpireException()
+        throw new UnauthorizedException('Token has expired');
+      throw error;
+    }
 
-    return false;
+    return true;
   }
 }

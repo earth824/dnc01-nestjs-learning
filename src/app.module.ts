@@ -20,12 +20,12 @@ import { AuthGuard } from 'src/auth/guards/auth.guard';
       validate,
       load: [databaseConfig, jwtConfig]
     })
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard
+    }
   ]
-  // providers: [
-  //   {
-  //     provide: APP_GUARD,
-  //     useClass: AuthGuard
-  //   }
-  // ]
 })
 export class AppModule {}

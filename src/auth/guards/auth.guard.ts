@@ -7,15 +7,30 @@ import {
   Injectable,
   UnauthorizedException
 } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 import { JsonWebTokenError, JwtService, TokenExpiredError } from '@nestjs/jwt';
 import { Request } from 'express';
+import { IS_PUBLIC_KEY } from 'src/auth/decorators/public.decorator';
 import { AccessJwtPayload } from 'src/auth/types/jwt-payload.type';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly reflector: Reflector
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    // check is public key true or not ?
+    // if publickey is true return true
+    const isPublic = this.reflector.getAllAndOverride<boolean | undefined>(
+      IS_PUBLIC_KEY,
+      [context.getHandler(), context.getClass()]
+    );
+    if (isPublic) return true;
+    // console.log('-----------------------------: getAll', [true, true]);
+    // console.log('-----------------------------: getAllAndMerge', [true]);
+
     console.log('AUTH_GUARD');
     const type = context.getType();
     console.log(type);

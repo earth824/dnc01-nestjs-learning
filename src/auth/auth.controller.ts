@@ -1,11 +1,13 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
   HttpCode,
   HttpStatus,
   Patch,
   Post,
+  SerializeOptions,
   SetMetadata,
   UseInterceptors
   // UsePipes,
@@ -17,6 +19,7 @@ import { Public } from 'src/auth/decorators/public.decorator';
 import { LoginDto } from 'src/auth/dtos/login.dto';
 import { RegisterDto } from 'src/auth/dtos/register.dto';
 import { SerializeInterceptor } from 'src/common/interceptors/serialize.interceptor';
+import { UserResponseDto } from 'src/user/dtos/user-reponse.dto';
 
 // @UseGuards(AuthGuard)
 // @UsePipes(new ValidationPipe({ stopAtFirstError: true }))
@@ -43,9 +46,25 @@ export class AuthController {
   }
 
   // @UseGuards(AuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ type: UserResponseDto })
   @Get('me')
-  getMe(@CurrentUser('sub') userId: number) {
-    return this.authService.getCurrentUser(userId);
+  async getMe(@CurrentUser('sub') userId: number) {
+    // return new UserResponseDto({
+    //   id: 1,
+    //   username: 'jim',
+    //   password: '123456',
+    //   role: 'ADMIN'
+    // });
+    // return {
+    //   id: 1,
+    //   username: 'jim',
+    //   password: '123456',
+    //   role: 'ADMIN'
+    // };
+    const user = await this.authService.getCurrentUser(userId);
+    return user;
+    // return new UserResponseDto(user);
   }
 
   @Patch('me/password')

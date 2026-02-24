@@ -6,7 +6,8 @@ import {
   HttpStatus,
   Patch,
   Post,
-  SetMetadata
+  SetMetadata,
+  UseInterceptors
   // UsePipes,
   // ValidationPipe
 } from '@nestjs/common';
@@ -15,6 +16,7 @@ import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { LoginDto } from 'src/auth/dtos/login.dto';
 import { RegisterDto } from 'src/auth/dtos/register.dto';
+import { SerializeInterceptor } from 'src/common/interceptors/serialize.interceptor';
 
 // @UseGuards(AuthGuard)
 // @UsePipes(new ValidationPipe({ stopAtFirstError: true }))
@@ -53,4 +55,12 @@ export class AuthController {
 
   // @Put()
   // @Delete()
+  @UseInterceptors(SerializeInterceptor)
+  @Public()
+  @Get('test')
+  test() {
+    console.log('AUTH CONTROLLER TEST');
+    return 'RESPONSE FROM TEST';
+    // return { success: true, data: 'RESPONSE FROM TEST', timestam: new Date() };
+  }
 }

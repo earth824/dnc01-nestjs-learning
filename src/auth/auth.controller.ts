@@ -13,6 +13,7 @@ import {
   // UsePipes,
   // ValidationPipe
 } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 import { AuthService } from 'src/auth/auth.service';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { Public } from 'src/auth/decorators/public.decorator';
@@ -47,7 +48,7 @@ export class AuthController {
 
   // @UseGuards(AuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
-  @SerializeOptions({ type: UserResponseDto })
+  @SerializeOptions({ type: UserResponseDto, excludeExtraneousValues: true })
   @Get('me')
   async getMe(@CurrentUser('sub') userId: number) {
     // return new UserResponseDto({
@@ -74,12 +75,21 @@ export class AuthController {
 
   // @Put()
   // @Delete()
-  @UseInterceptors(SerializeInterceptor)
+  // @UseInterceptors(SerializeInterceptor)
   @Public()
   @Get('test')
   test() {
-    console.log('AUTH CONTROLLER TEST');
-    return 'RESPONSE FROM TEST';
+    const result = {
+      id: 11111,
+      username: 'a',
+      password: '123456',
+      role: 'USER'
+    };
+    const instance = plainToInstance(UserResponseDto, result, {
+      excludeExtraneousValues: true
+    });
+    return instance;
+    // return 'RESPONSE FROM TEST';
     // return { success: true, data: 'RESPONSE FROM TEST', timestam: new Date() };
   }
 }

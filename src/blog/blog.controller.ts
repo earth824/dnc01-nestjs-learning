@@ -6,19 +6,35 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Put,
   Query,
   Req,
   Res,
-  SetMetadata
+  SetMetadata,
+  UploadedFile,
+  UseInterceptors
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import type { Request, Response } from 'express';
 import { AuthService } from 'src/auth/auth.service';
+import { Public } from 'src/auth/decorators/public.decorator';
+import { BlogService } from 'src/blog/blog.service';
 
 @Controller('blogs')
 export class BlogController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly blogService: BlogService
+  ) {}
+
+  @Public()
+  @UseInterceptors(FileInterceptor('blogImage'))
+  @Patch()
+  upload(@UploadedFile() file: Express.Multer.File) {
+    this.blogService.uploadImage(file);
+  }
 
   @Get()
   getAllBlog(

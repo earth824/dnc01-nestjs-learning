@@ -1,16 +1,17 @@
 import { Exclude, Expose } from 'class-transformer';
 import { Role } from 'src/database/generated/prisma/enums';
 
-@Exclude()
+// @Exclude()
 export class UserResponseDto {
-  @Expose()
+  // @Expose()
   id: number;
 
+  // @Expose()
   username: string;
 
-  password: string;
+  // password: string;
 
-  role: Role;
+  // role: Role;
 
   constructor(partial: Partial<UserResponseDto>) {
     Object.assign(this, partial);

@@ -33,7 +33,7 @@ export class BlogController {
   @UseInterceptors(FileInterceptor('blogImage'))
   @Patch()
   upload(@UploadedFile() file: Express.Multer.File) {
-    this.blogService.uploadImage(file);
+    return this.blogService.uploadImage(file);
   }
 
   @Get()

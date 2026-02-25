@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { BlogController } from './blog.controller';
 import { AuthModule } from 'src/auth/auth.module';
-import { BlogsService } from 'src/blog/blog.service';
+import { BlogService } from 'src/blog/blog.service';
+import { UploadModule } from 'src/shared/upload/upload.module';
 
 @Module({
-  imports: [AuthModule],
+  imports: [AuthModule, UploadModule],
   controllers: [BlogController],
-  providers: [BlogsService]
+  providers: [BlogService]
 })
 export class BlogModule {}
